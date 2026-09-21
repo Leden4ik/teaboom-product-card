@@ -1,0 +1,275 @@
+@use "initial-variables";
+
+@use "sass:math" as math;
+// Placeholders
+@mixin placeholder {
+  $placeholders: "::-moz-" "::-webkit-input-" ":-moz-" ":-ms-input-" "::";
+  @each $placeholder in $placeholders {
+    &#{$placeholder}placeholder {
+      @content;
+    }
+  }
+}
+// Text select - off
+@mixin unselectable {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+%unselectable {
+  @include unselectable;
+}
+// drag - off
+@mixin undrag {
+  -webkit-user-drag: none;
+}
+%undrag {
+  @include undrag;
+}
+@mixin hover {
+  &:hover {
+    animation: 1s infinite shine;
+    mask-image: linear-gradient(-75deg, rgba(0, 0, 0, 0.6) 30%, #000 50%, rgba(0, 0, 0, 0.6) 70%);
+    mask-size: 200%;
+  }
+}
+@mixin hover-link {
+  display: inline-flex;
+  position: relative;
+  &::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    bottom: 0;
+    left: 0;
+    background-color: currentColor;
+    visibility: hidden;
+    transform: scaleX(0);
+    transition: all 0.3s ease-in-out 0s;
+  }
+  &:hover {
+    &::before {
+      visibility: visible;
+      transform: scaleX(1);
+    }
+  }
+  @include hover;
+}
+%hover-link {
+  @include hover-link;
+}
+@mixin clearfix {
+  &::after {
+    display: table;
+    clear: both;
+    content: " ";
+  }
+}
+@mixin overflow-touch {
+  -webkit-overflow-scrolling: touch;
+}
+@mixin loader {
+  position: relative;
+  display: block;
+  width: 1em;
+  height: 1em;
+  content: "";
+  animation: spinAround 500ms infinite linear;
+  border: 2px solid initial-variables.$grey-lighter;
+  border-top-color: transparent;
+  border-right-color: transparent;
+  border-radius: initial-variables.$radius-rounded;
+}
+@mixin hamburger($dimensions) {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: block;
+  height: $dimensions;
+  position: relative;
+  width: $dimensions;
+  min-width: $dimensions;
+  &:hover {
+    span {
+      background-color: #4d4d4d;
+    }
+  }
+  span {
+    background-color: currentColor;
+    display: block;
+    height: 2px;
+    left: calc(50% - $dimensions / 2);
+    position: absolute;
+    transform-origin: center;
+    transition-duration: initial-variables.$speed-long;
+    transition-property: background-color, opacity, transform, width;
+    transition-timing-function: initial-variables.$easing;
+    will-change: background-color, opacity, transform, width;
+    //border-radius: 50%;
+    width: $dimensions;
+    &:nth-child(1) {
+      top: calc(50% - 4px);
+    }
+    &:nth-child(2) {
+      top: calc(50% + 4px);
+    }
+  }
+  //&:hover {
+  //  background-color: bulmaRgba(black, 0.05);
+  //} // Modifers
+  &.is-active {
+    span {
+      &:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+      }
+      &:nth-child(2) {
+        transform: translateY(-8px) rotate(-45deg);
+      }
+    }
+  }
+}
+@mixin arrow($color: transparent, $rotate: -45deg, $bsize: 3px) {
+  //position: relative;
+  &:before {
+    position: absolute;
+    top: 50%;
+    display: block;
+    width: 0.625em;
+    height: 0.625em;
+    margin-top: -0.4375em;
+    content: "";
+    transition-timing-function: initial-variables.$easing;
+    transition-duration: initial-variables.$speed;
+    transition-property: transform, width;
+    will-change: transform, width;
+    transform: rotate($rotate);
+    transform-origin: center;
+    pointer-events: none;
+    border-left: $bsize solid $color;
+    border-bottom: $bsize solid $color;
+    border-top: 0 !important;
+    border-right: 0 !important;
+    border-radius: 2px;
+  }
+  //span {
+  //  position: absolute;
+  //  top: 50%;
+  //  display: block;
+  //  width: .625em;
+  //  height: .625em;
+  //  margin-top: -.4375em;
+  //  content: "";
+  //  transition-timing-function: $easing;
+  //  transition-duration: $speed;
+  //  transition-property: transform;
+  //  transform: rotate($rotate);
+  //  transform-origin: center;
+  //  pointer-events: none;
+  //  border-left: $bsize solid $color;
+  //  border-bottom: $bsize solid $color;
+  //  border-top: 0 !important;
+  //  border-right: 0 !important;
+  //  border-radius: 2px;
+  //}
+  //// Modifers
+  //&:hover.&:focus {
+  //  span {
+  //    transform: rotate(-225deg);
+  //  }
+  //}
+}
+@mixin overlay($offset: 0) {
+  position: absolute;
+  top: $offset;
+  right: $offset;
+  bottom: $offset;
+  left: $offset;
+}
+//-----------------------------------------------------------------------
+// Convert font-size from px to rem with px fallback
+// @param $size - the value in pixel you want to convert
+// e.g. p {@include fontSize(12px);}
+//-----------------------------------------------------------------------
+// Function for converting a px based font-size to rem.
+@function calculateRem($size) {
+  $remSize: math.div($size, initial-variables.$font-size);
+  //Default font size on html element is 100%, equivalent to 16px;
+  @return #{$remSize}rem;
+}
+// Mixin that will include the fall back px declaration as well as the calculated rem value.
+@mixin fontSize($size) {
+  //font-size: $size;
+  & {
+    font-size: calculateRem($size);
+  }
+}
+//-----------------------------------------------------------------------
+//  Function to remove units
+//  http://stackoverflow.com/questions/12328259/how-do-you-strip-the-unit-from-any-number-in-sass
+//-----------------------------------------------------------------------
+@function strip-units($number) {
+  @return math.div($number, ($number * 0 + 1));
+}
+//-----------------------------------------------------------------------
+//  Font/Line Height
+//  pass in the photoshop font size and line height in the same order
+//  they're displayed in the character window
+//-----------------------------------------------------------------------
+@mixin line-height($ps-font-size, $ps-line-height: $ps-font-size) {
+  & {
+    line-height: math.div(strip-units($ps-line-height), strip-units($ps-font-size));
+  }
+}
+@mixin link-default-style() {
+  &,
+  &:focus {
+    @content;
+  }
+}
+//@mixin link-focus-style() {
+//	@media (hover: hover) {
+//		&:focus {
+//			@content;
+//		}
+//	}
+//}
+@mixin link-hover-style() {
+  //@media (hover: hover) {
+  &:hover {
+    @content;
+  }
+  //}
+}
+@mixin link-active-style() {
+  @media (hover: hover) {
+    &:active,
+    &:focus:active,
+    &:hover:active {
+      @content;
+    }
+  }
+  @media (hover: none) {
+    &.touched {
+      @content;
+    }
+  }
+}
+@mixin link-disabled-style() {
+  &:disabled,
+  &[disabled],
+  &.disabled {
+    cursor: default;
+    &,
+    &:active,
+    &:focus:active,
+    &:hover:active {
+      @content;
+    }
+  }
+}

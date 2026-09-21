@@ -1,0 +1,13 @@
+//- Форматирование цен. Та же логика продублирована в js/modules/product.js —
+//- первый рендер делает pug, дальше при смене фасовки пересчитывает js.
+-
+  const NBSP = String.fromCharCode(160)
+  const formatPrice = (value) => {
+    const hasKopecks = Math.round(value * 100) % 100 !== 0
+    return new Intl.NumberFormat('ru-RU', {
+      minimumFractionDigits: hasKopecks ? 2 : 0,
+      maximumFractionDigits: 2,
+    }).format(value) + NBSP + '₽'
+  }
+  const discountPercent = (price, oldPrice) => Math.round((1 - price / oldPrice) * 100)
+  const unitPrice = (price, weight) => price / weight * 100

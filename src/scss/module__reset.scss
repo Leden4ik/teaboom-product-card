@@ -1,0 +1,203 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// Modern CSS Reset — 2025
+// Основа: modern-normalize + Andy Bell + Josh Comeau + проектная специфика
+// ─────────────────────────────────────────────────────────────────────────────
+
+// ─── 1. Box sizing ───────────────────────────────────────────────────────────
+// Браузеры всё ещё дефолтят content-box — переключаем глобально
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+// ─── 2. Корневые настройки ───────────────────────────────────────────────────
+html {
+  // Предотвращает раздутие шрифта при повороте на мобильных (Safari, Chrome mobile)
+  -moz-text-size-adjust: none;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+
+  // Сглаживание шрифтов на macOS / iOS
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  // Стандартный размер таба для <pre>/<code>
+  -moz-tab-size: 4;
+  tab-size: 4;
+
+  // Плавный скролл с учётом prefers-reduced-motion ниже
+  scroll-behavior: smooth;
+
+  // Страница всегда занимает полную высоту — основа для sticky footer
+  height: 100%;
+}
+
+// ─── 3. Тело документа ───────────────────────────────────────────────────────
+body {
+  margin: 0;
+  height: 100%;
+  // 100dvh учитывает адресную строку мобильного браузера (iOS Safari, Chrome Android)
+  min-height: 100dvh;
+  line-height: 1.5; // браузерный дефолт "normal" (~1.2) слишком плотный
+}
+
+// ─── 4. Сброс отступов ───────────────────────────────────────────────────────
+// Точечный сброс — только элементы, у которых браузер задаёт отступы по умолчанию
+h1, h2, h3, h4, h5, h6,
+p, figure, figcaption,
+blockquote, dl, dd,
+ul, ol, li,
+pre {
+  margin: 0;
+  padding: 0;
+}
+
+// ─── 5. Типографика ──────────────────────────────────────────────────────────
+h1, h2, h3, h4, h5, h6 {
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: 1.1;
+  // Нативная балансировка строк заголовков (Chrome 114+, Edge 114+, Firefox 121+)
+  text-wrap: balance;
+}
+
+p, li, figcaption {
+  // Избегает одиноких слов в последней строке (Chrome 117+)
+  text-wrap: pretty;
+  // Длинные слова / URL не вылезают за блок
+  overflow-wrap: break-word;
+}
+
+// ─── 6. Ссылки ───────────────────────────────────────────────────────────────
+a {
+  color: inherit;
+  text-decoration: inherit;
+  background-color: transparent;
+
+  // Ссылки без класса — подчёркивание обходит выносные элементы букв
+  &:not([class]) {
+    text-decoration-skip-ink: auto;
+    color: currentColor;
+  }
+}
+
+// ─── 7. Медиа ────────────────────────────────────────────────────────────────
+// display: block убирает inline gap (~4px снизу изображения)
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+iframe {
+  border: 0;
+}
+
+// ─── 8. Таблицы ──────────────────────────────────────────────────────────────
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+td, th {
+  padding: 0;
+}
+
+// ─── 9. Форм-элементы ────────────────────────────────────────────────────────
+// Chrome/Safari по-прежнему НЕ наследуют шрифт у button/input/select
+button, input, textarea, select, optgroup {
+  font: inherit;
+  color: inherit;
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  margin: 0;
+  letter-spacing: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+// Минимальная высота textarea без атрибута rows
+textarea:not([rows]) {
+  min-height: 10em;
+}
+
+:disabled,
+.disabled {
+  cursor: not-allowed;
+}
+
+// Скрыть нативную кнопку "очистить поле" (Edge/IE legacy)
+::-ms-reveal,
+::-ms-clear {
+  display: none;
+}
+
+// Скрыть нативный spinner у input[type=number] в WebKit
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+// ─── 10. Плейсхолдеры ────────────────────────────────────────────────────────
+// Стандартный ::placeholder — IE давно мёртв
+::placeholder {
+  transition: opacity 0.3s;
+}
+
+:focus::placeholder {
+  opacity: 0;
+}
+
+// ─── 11. Автозаполнение ──────────────────────────────────────────────────────
+:-webkit-autofill {
+  box-shadow: 0 0 100px #fff inset;
+  -webkit-text-fill-color: currentColor;
+}
+
+// ─── 12. Списки с ролью list ─────────────────────────────────────────────────
+// Только с role="list" — чтобы не сломать стандартные маркированные списки.
+// :where() обнуляет специфичность: отступы списков из модулей (.vd__…) должны побеждать reset.
+:where(ul[role='list'], ol[role='list']) {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+// ─── 13. Фокус ───────────────────────────────────────────────────────────────
+// Убираем outline только при навигации мышью — сохраняем для клавиатуры и AT
+// (WCAG 2.1 AA — :focus-visible обеспечивает видимый индикатор для клавиатуры)
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+// ─── 14. Якорные цели ────────────────────────────────────────────────────────
+// Sticky-хедер не перекрывает перескакиваемый элемент
+:target {
+  scroll-margin-block: 5ex;
+}
+
+// ─── 15. Выделение текста ────────────────────────────────────────────────────
+::selection {
+  color: #fff;
+  background-color: #5b846e;
+}
+
+// ─── 16. Сниженное движение (доступность) ────────────────────────────────────
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,41 @@
+@use "../../config/default";
+@use "../../config/initial-variables" as v;
+
+// Кнопка в духе teaboom.ru: жёлтая с тёмным текстом,
+// при наведении инвертируется в тёмную с жёлтым текстом.
+.tb__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 0 28px;
+  border: 2px solid v.$yellow;
+  border-radius: v.$radius;
+  background-color: v.$yellow;
+  color: v.$dark;
+  font-size: 16px;
+  font-weight: v.$weight-bold;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  @include default.unselectable;
+  transition-property: background-color, border-color, color, transform;
+  transition-duration: v.$speed-long;
+  transition-timing-function: v.$easing;
+  .icon {
+    width: 22px;
+    height: 22px;
+  }
+  &:hover {
+    border-color: v.$dark;
+    background-color: v.$dark;
+    color: v.$yellow;
+  }
+  &:active {
+    transform: translateY(1px);
+  }
+  &:focus-visible {
+    outline-offset: 3px;
+  }
+}

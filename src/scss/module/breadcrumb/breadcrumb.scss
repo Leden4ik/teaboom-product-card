@@ -1,0 +1,54 @@
+@use "../../config/initial-variables" as v;
+@use "../../config/responsiveness" as r;
+
+.tb__breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 4px;
+  padding: 0;
+  font-size: 12px;
+  line-height: 18px;
+  color: v.$muted;
+  list-style: none;
+  &--container {
+    margin-bottom: 20px;
+    @include r.mobile {
+      margin-bottom: 12px;
+    }
+  }
+  &-item {
+    display: flex;
+    align-items: center;
+    &--sep {
+      width: 14px;
+      height: 14px;
+      margin: 0 4px;
+      color: v.$grey-light;
+    }
+  }
+  // На мобилке длинная цепочка занимает полэкрана — оставляем только шаг назад
+  @include r.until-mobile {
+    &-item {
+      display: none;
+      &:nth-last-child(2) {
+        display: flex;
+        .tb__breadcrumb-item--sep {
+          display: none;
+        }
+        &::before {
+          content: "←";
+          margin-right: 6px;
+        }
+      }
+    }
+  }
+}
+a.tb__breadcrumb-item--link {
+  color: v.$text;
+  transition: color v.$speed-long v.$easing;
+  &:hover {
+    color: v.$dark;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+}

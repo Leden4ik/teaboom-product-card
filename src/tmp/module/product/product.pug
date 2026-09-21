@@ -1,0 +1,86 @@
+- const initial = product.variants[0]
+- const prices = product.variants.map((v) => v.price)
+
+article.tb__product(itemscope itemtype="https://schema.org/Product")
+    meta(itemprop="image" content=product.image.src)
+    div(itemprop="offers" itemscope itemtype="https://schema.org/AggregateOffer" hidden)
+        meta(itemprop="priceCurrency" content="RUB")
+        meta(itemprop="lowPrice" content=Math.min(...prices))
+        meta(itemprop="highPrice" content=Math.max(...prices))
+        meta(itemprop="offerCount" content=product.variants.length)
+        link(itemprop="availability" href="https://schema.org/InStock")
+
+    header.tb__product--head
+        a.tb__product--category(href=product.category.url) #{product.category.label}
+        h1.tb__product--title(itemprop="name") #{product.title}
+        .tb__product--meta
+            span.tb__product--sku
+                | Арт.&nbsp;
+                span.js--sku(itemprop="sku") #{initial.sku}
+            span.tb__product--stock В наличии
+
+    .tb__product--media
+        figure.tb__product--figure
+            img.tb__product--img(src=product.image.src alt=product.title width=product.image.width height=product.image.height fetchpriority="high")
+            span.tb__product--badge
+                span.is-sr-only Скидка:
+                span.js--discount −#{discountPercent(initial.price, initial.oldPrice)}%
+        button.tb__fav.js--fav(type="button" aria-pressed="false" aria-label="Добавить в избранное" title="В избранное")
+            +ico('heart', 'tb__fav--ico')
+            +ico('heart-fill', 'tb__fav--ico-active')
+
+    form.tb__product--buy.js--product-form(action="#" method="post")
+        fieldset.tb__pack
+            legend.tb__pack--legend Фасовка
+            .tb__pack--list
+                each variant, index in product.variants
+                    label.tb__pack--item
+                        input.tb__pack--input(
+                            type="radio"
+                            name="variant"
+                            value=variant.sku
+                            checked=index === 0
+                            data-weight=variant.weight
+                            data-price=variant.price
+                            data-old-price=variant.oldPrice
+                        )
+                        span.tb__pack--weight #{variant.weight} г
+                        span.tb__pack--price #{formatPrice(variant.price)}
+
+        .tb__product--checkout
+            .tb__price(aria-live="polite")
+                .tb__price--row
+                    span.tb__price--current
+                        span.is-sr-only Цена:
+                        span.js--price #{formatPrice(initial.price)}
+                    s.tb__price--old
+                        span.is-sr-only Старая цена:
+                        span.js--old-price #{formatPrice(initial.oldPrice)}
+                p.tb__price--note
+                    | Выгода&nbsp;
+                    b.js--saving #{formatPrice(initial.oldPrice - initial.price)}
+                    span.tb__price--dot(aria-hidden="true") ·
+                    span.js--unit #{formatPrice(unitPrice(initial.price, initial.weight))}
+                    | &nbsp;за&nbsp;100&nbsp;г
+
+            button.tb__button.tb__button--cart.js--cart(type="submit")
+                +ico('cart', 'tb__button--ico')
+                +ico('check', 'tb__button--ico-done')
+                span.js--cart-label В корзину
+        p.is-sr-only.js--status(role="status")
+
+    section.tb__product--about(aria-labelledby="product-about")
+        h2.tb__product--subtitle#product-about О чае
+        p.tb__product--lead(itemprop="description") #{product.lead}
+        dl.tb__facts
+            each fact in product.facts
+                .tb__facts--item
+                    dt.tb__facts--label
+                        +ico(fact.icon, 'tb__facts--ico')
+                        | #{fact.label}
+                    dd.tb__facts--value #{fact.value}
+        h3.tb__product--caption Вкус
+        p.tb__product--text #{product.taste}
+        p.tb__product--composition
+            span Состав:
+            | &nbsp;#{product.composition}.

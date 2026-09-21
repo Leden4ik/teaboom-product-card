@@ -1,0 +1,17 @@
+mixin breadcrumbs(items)
+    nav.tb__breadcrumb--container(aria-label="Хлебные крошки")
+        ol(itemscope itemtype="https://schema.org/BreadcrumbList").tb__breadcrumb
+            each crumb, index in items
+                li.tb__breadcrumb-item(itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" aria-current=crumb.url === '#' ? 'page' : false)
+                    if index > 0
+                        +ico('chevron', 'tb__breadcrumb-item--sep')
+                    if crumb.url !== '#'
+                        a.tb__breadcrumb-item--link(href=crumb.url itemprop="item")
+                            span(itemprop="name") #{crumb.label}
+                    else
+                        span.tb__breadcrumb-item--link(itemprop="name") #{crumb.label}
+                    meta(itemprop="position" content=index + 1)
+
+mixin ico(name, cls)
+    svg(class=`icon icon-${name}${cls ? ' ' + cls : ''}` aria-hidden="true" focusable="false")
+        use(href=`img/icons/sprite.svg#${name}`)

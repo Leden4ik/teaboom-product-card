@@ -1,0 +1,19 @@
+extends layout/default
+include _config/helper
+block variables
+  include _config/format
+  include _config/product-data
+  -  const pageTitle = `${product.title} — купить в Teaboom.ru`
+  -  const pageDescription = 'Ананасовый улун: светлый фуцзяньский улун с ароматом ананаса. Фасовки от 100 г до 5 кг.'
+  -  const pageClass = 'page-product'
+
+block header
+    include module/header/header
+block scripts
+    include module/js
+
+block content
+    main.tb__page
+        .container
+            +breadcrumbs(breadcrumbs)
+            include module/product/product

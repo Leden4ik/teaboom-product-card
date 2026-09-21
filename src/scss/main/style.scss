@@ -1,0 +1,68 @@
+@use "../config/default";
+@use "../config/initial-variables" as v;
+@use "../config/responsiveness" as r;
+
+html {
+  font-size: 16px;
+}
+body {
+  font-family: v.$font-family;
+  font-size: v.$font-size;
+  font-weight: v.$weight-normal;
+  line-height: 1.5;
+  color: v.$text;
+  background-color: v.$bg;
+}
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+}
+main {
+  flex-grow: 1;
+  width: 100%;
+}
+img {
+  @include default.undrag;
+  @include default.unselectable;
+}
+:focus-visible {
+  outline: 2px solid v.$dark;
+  outline-offset: 2px;
+}
+.container {
+  width: 100%;
+  max-width: v.$container + v.$gutter * 2;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: v.$gutter;
+  padding-right: v.$gutter;
+  @include r.touch {
+    padding-left: v.$gutter-tablet;
+    padding-right: v.$gutter-tablet;
+  }
+  @include r.mobile {
+    padding-left: v.$gutter-mobile;
+    padding-right: v.$gutter-mobile;
+  }
+}
+.icon {
+  display: block;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  color: inherit;
+}
+.tb__page {
+  padding: 20px 0 64px;
+  @include r.mobile {
+    padding: 12px 0 40px;
+  }
+}
+@media screen and (max-width: 319px) {
+  body,
+  html {
+    min-width: 319px;
+  }
+}

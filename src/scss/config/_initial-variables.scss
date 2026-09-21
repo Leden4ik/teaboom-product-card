@@ -1,0 +1,43 @@
+// Палитра снята с teaboom.ru: жёлтый акцент, почти чёрный #202020,
+// основной текст #444, светло-серые подложки вариантов.
+$yellow: #f5d730 !default;
+$yellow-dark: #e6c619 !default;
+$yellow-light: #fdf7d6 !default;
+$dark: #202020 !default;
+$text: #444444 !default;
+$muted: #808080 !default;
+$bg: #fbfbfb !default;
+$bg-card: #ffffff !default;
+$bg-control: #f6f7f8 !default;
+$border: #ececec !default;
+$border-strong: #d0d0d0 !default;
+$white: #fff !default;
+$sale: #e02b20 !default;
+$stock: #3c9a4a !default;
+
+$black: hsl(0, 0%, 4%) !default;
+$grey: hsl(0, 0%, 48%) !default;
+$grey-light: hsl(0, 0%, 71%) !default;
+$grey-lighter: hsl(0, 0%, 86%) !default;
+
+// ₽ в Open Sans нет — знак подхватывается из системного шрифта
+$font-family: "OpenSans", "Open Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif !default;
+$font-size: 14px !default;
+$weight-normal: 400 !default;
+$weight-medium: 500 !default;
+$weight-semibold: 600 !default;
+$weight-bold: 700 !default;
+$weight-extrabold: 800 !default;
+
+$easing: ease-out !default;
+$speed: 86ms !default;
+$speed-long: 250ms !default;
+$radius-small: 4px !default;
+$radius: 8px !default;
+$radius-large: 12px !default;
+$radius-rounded: 290486px !default;
+
+$container: 1200px !default;
+$gutter: 40px !default;
+$gutter-tablet: 24px !default;
+$gutter-mobile: 16px !default;

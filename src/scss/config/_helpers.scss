@@ -1,0 +1,129 @@
+@use "_default";
+@use "responsiveness";
+$displays: "block" "flex" "inline" "inline-block" "inline-flex";
+@each $display in $displays {
+  .is-#{$display} {
+    display: #{$display} !important;
+  }
+}
+.is-capitalized {
+  text-transform: capitalize !important;
+}
+.is-lowercase {
+  text-transform: lowercase !important;
+}
+.is-weight {
+  &-bold {
+    font-weight: 500 !important;
+  }
+}
+.is-noscroll {
+  overflow: hidden !important;
+}
+.is-uppercase {
+  text-transform: uppercase !important;
+}
+.is-italic {
+  font-style: italic !important;
+}
+.is-hidden {
+  display: none !important;
+}
+.is-sr-only {
+  position: absolute !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  height: 0.01em !important;
+  padding: 0 !important;
+  white-space: nowrap !important;
+  border: none !important;
+}
+.is-invisible {
+  visibility: hidden !important;
+}
+// Other
+.is-marginless {
+  margin: 0 !important;
+}
+.is-paddingless {
+  padding: 0 !important;
+}
+.is-radiusless {
+  border-radius: 0 !important;
+}
+.is-shadowless {
+  box-shadow: none !important;
+}
+.is-unselectable {
+  @extend %unselectable;
+}
+.is-relative {
+  position: relative !important;
+}
+.is-disabled {
+  opacity: 0.6;
+  pointer-events: none;
+}
+@include responsiveness.until-mobile {
+  .is-hidden-mobile-only {
+    display: none !important;
+  }
+}
+@include responsiveness.minimobile {
+  .is-hidden-minimobile {
+    display: none !important;
+  }
+}
+@include responsiveness.mobile {
+  .is-hidden-mobile {
+    display: none !important;
+  }
+}
+@include responsiveness.tablet {
+  .is-hidden-tablet {
+    display: none !important;
+  }
+}
+@include responsiveness.tablet-only {
+  .is-hidden-tablet-only {
+    display: none !important;
+  }
+}
+@include responsiveness.touch {
+  .is-hidden-touching {
+    display: none !important;
+  }
+}
+@include responsiveness.desktop {
+  .is-hidden-desktop {
+    display: none !important;
+  }
+}
+@include responsiveness.desktop-only {
+  .is-hidden-desktop-only {
+    display: none !important;
+  }
+}
+@include responsiveness.widescreen {
+  .is-hidden-widescreen {
+    display: none !important;
+  }
+}
+@include responsiveness.for-size(widescreen-only) {
+  .is-hidden-widescreen-only {
+    display: none !important;
+  }
+}
+@include responsiveness.fullhd {
+  .is-hidden-fullhd {
+    display: none !important;
+  }
+}
+@keyframes spinAround {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
