@@ -1,0 +1,7 @@
+.vscode
+.idea
+dist
+node_modules
+*.zip
+src/.temporary_cache
+package-lock.json
